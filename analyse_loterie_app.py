@@ -30,8 +30,20 @@ if st.button("Analyser"):
         duplicates_per_suite = [set([x for x, c in Counter(s).items() if c > 1]) for s in suites]
         doublon_set = set().union(*duplicates_per_suite)
 
-        sorted_by_gap = sorted(gap_counter.items(), key=lambda x: -x[1])
-        recommandations = [num for num, gap in sorted_by_gap if num not in doublon_set][:3]
+        # Approche améliorée : Priorité à 0, zones froides (hautes ou basses) et écarts importants
+        def score(num):
+            s = 0
+            if num == 0:
+                s += 10
+            if num <= 5 or num >= 31:
+                s += 5
+            s += gap_counter[num] * 2
+            s -= counter[num]  # pénalise la fréquence
+            return s
+
+        scores = [(n, score(n)) for n in range(37) if n not in doublon_set]
+        best = sorted(scores, key=lambda x: -x[1])[:3]
+        recommandations = [n for n, _ in best]
 
         st.subheader("📊 Résultats")
         data = {

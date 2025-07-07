@@ -13,4 +13,3 @@ Cette application Streamlit permet d’analyser des suites de numéros de roulet
 2. Va sur https://streamlit.io/cloud
 3. Clique sur "New app", sélectionne ton dépôt
 4. Lance l'application !
-
